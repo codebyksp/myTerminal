@@ -55,7 +55,7 @@ function getCombinedDirectory(path) {
 }
 
 // ------------------ Command Implementations ------------------
-function my_ls() {
+function ls() {
   const combined = getCombinedDirectory(currentPath);
   let listing = "";
   Object.keys(combined.dirs).forEach(name => {
@@ -67,9 +67,9 @@ function my_ls() {
   return listing || "Directory is empty";
 }
 
-function my_mkdir(dirName) {
+function mkdir(dirName) {
   if (!/^[A-Za-z0-9]+$/.test(dirName)) {
-    return "Bad command: my_mkdir";
+    return "Bad command: mkdir";
   }
   // Check if directory already exists in either FS.
   const permDir = getDirectory(permanentFS, currentPath);
@@ -85,10 +85,10 @@ function my_mkdir(dirName) {
   return "";
 }
 
-function my_touch(fileName) {
+function touch(fileName) {
   // Allow alphanumeric characters and a dot (for file extension)
   if (!/^[A-Za-z0-9.]+$/.test(fileName)) {
-    return "Bad command: my_touch";
+    return "Bad command: touch";
   }
   const permDir = getDirectory(permanentFS, currentPath);
   const localDir = getDirectory(localFS, currentPath);
@@ -104,7 +104,7 @@ function my_touch(fileName) {
   return "";
 }
 
-function my_cd(dirName) {
+function cd(dirName) {
   if (dirName === "..") {
     if (currentPath === "/") {
       return "Already at root";
@@ -125,7 +125,7 @@ function my_cd(dirName) {
       currentPath = currentPath === "/" ? "/" + dirName : currentPath + "/" + dirName;
       return "";
     }
-    return "Bad command: my_cd";
+    return "Bad command: cd";
   }
 }
 
@@ -173,10 +173,10 @@ quit                   Exits the shell (refresh the page to restart)
 set VAR STRING         Sets a variable in shell memory
 print VAR              Displays the variable's value
 echo STRING            Echoes input (supports $VAR substitution)
-my_ls                  Lists files/directories in current folder
-my_mkdir DIR           Creates a new directory (local only)
-my_touch FILE          Creates a new file (local only)
-my_cd DIR              Changes directory (supports ".." to go back)
+ls                     Lists files/directories in current folder
+mkdir DIR              Creates a new directory (local only)
+touch FILE             Creates a new file (local only)
+cd DIR                 Changes directory (supports ".." to go back)
 cat FILE               Displays the contents of a file
 `;
       break;
@@ -215,28 +215,28 @@ cat FILE               Displays the contents of a file
         }).join(" ");
       }
       break;
-    case "my_ls":
-      response = my_ls();
+    case "ls":
+      response = ls();
       break;
-    case "my_mkdir":
+    case "mkdir":
       if (args.length !== 2) {
         response = "Unknown command";
       } else {
-        response = my_mkdir(args[1]);
+        response = mkdir(args[1]);
       }
       break;
-    case "my_touch":
+    case "touch":
       if (args.length !== 2) {
         response = "Unknown command";
       } else {
-        response = my_touch(args[1]);
+        response = touch(args[1]);
       }
       break;
-    case "my_cd":
+    case "cd":
       if (args.length !== 2) {
         response = "Unknown command";
       } else {
-        response = my_cd(args[1]);
+        response = cd(args[1]);
       }
       break;
     case "cat":
@@ -280,5 +280,5 @@ document.getElementById("command-input").addEventListener("keydown", function(e)
 // Display a welcome note on page load.
 document.addEventListener("DOMContentLoaded", () => {
   const outputDiv = document.getElementById("output");
-  outputDiv.textContent += "Welcome!\nNote: The mkdir and touch commands modify only your local session and will not affect my permanent files.\n\n";
+  outputDiv.textContent += "Welcome! Type help to see all commands available to you. \nNote: The mkdir and touch commands modify only your local session and will not affect my permanent files so feel free to play around!\n\n";
 });
