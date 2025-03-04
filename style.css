@@ -1,1 +1,35 @@
+body {
+  background-color: #1e1e1e;
+  color: #c5c5c5;
+  font-family: Consolas, monospace;
+  margin: 0;
+  padding: 0;
+}
+
+#terminal {
+  padding: 20px;
+}
+
+#output {
+  min-height: 300px;
+  white-space: pre-wrap;
+}
+
+#input-line {
+  display: flex;
+  align-items: center;
+}
+
+#prompt {
+  margin-right: 5px;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: inherit;
+  flex: 1;
+  font-family: inherit;
+}
 
