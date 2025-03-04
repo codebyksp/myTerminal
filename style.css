@@ -8,11 +8,14 @@ body {
 
 #terminal {
   padding: 20px;
+  max-width: 800px;
+  margin: auto;
 }
 
 #output {
   min-height: 300px;
   white-space: pre-wrap;
+  margin-bottom: 10px;
 }
 
 #input-line {
@@ -32,4 +35,3 @@ body {
   flex: 1;
   font-family: inherit;
 }
-
