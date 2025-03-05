@@ -1,23 +1,90 @@
+/* Overall page style */
 body {
-  background-color: #1e1e1e;
-  color: #c5c5c5;
-  font-family: Consolas, monospace;
+  background-color: darkcyan;
   margin: 0;
   padding: 0;
+  font-family: Consolas, monospace;
 }
 
+/* Container that wraps the top bar + terminal body */
+#terminal-container {
+  width: 600px;
+  margin: 50px auto; /* Center horizontally, with top spacing */
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  overflow: hidden; /* Ensures rounded corners on top bar + terminal body */
+}
+
+/* Fake top bar (like a Windows Terminal/Command Prompt) */
+.terminal-topbar {
+  background-color: #2b2b2b;
+  color: #fff;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+/* Left section: tab info/title */
+.tab-info {
+  display: flex;
+  align-items: center;
+}
+
+.tab-label {
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+/* Middle section: new tab, menu arrow */
+.tab-actions {
+  display: flex;
+  gap: 5px;
+}
+
+/* Right section: minimize, maximize, close */
+.window-controls {
+  display: flex;
+  gap: 10px;
+}
+
+/* Style for the top bar buttons */
+.tab-btn,
+.window-control {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  padding: 0 5px;
+  outline: none;
+}
+
+.tab-btn:hover,
+.window-control:hover {
+  background-color: #444;
+}
+
+/* Actual terminal body below the top bar */
 #terminal {
+  background-color: #000;
+  color: #c5c5c5;
+  height: 365px; /* 35px top bar + 365px body = 400px total */
   padding: 20px;
-  max-width: 800px;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Output area with scrolling */
 #output {
-  min-height: 300px;
+  flex: 1;
+  overflow-y: auto;
   white-space: pre-wrap;
   margin-bottom: 10px;
 }
 
+/* Input line at bottom of terminal body */
 #input-line {
   display: flex;
   align-items: center;
@@ -34,4 +101,21 @@ body {
   color: inherit;
   flex: 1;
   font-family: inherit;
+}
+
+/* Quick Links at the bottom of the page */
+#quick-links {
+  text-align: center;
+  margin: 20px auto;
+  color: #fff;
+}
+
+#quick-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+#quick-links a:hover {
+  text-decoration: underline;
 }

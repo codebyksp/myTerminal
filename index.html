@@ -6,13 +6,43 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="terminal">
-    <div id="output"></div>
-    <div id="input-line">
-      <span id="prompt">$</span>
-      <input type="text" id="command-input" autofocus />
+  <div id="terminal-container">
+    <!-- Fake top bar -->
+    <div class="terminal-topbar">
+      <!-- Left part: Tab/Title -->
+      <div class="tab-info">
+        <span class="tab-label">Kanika's Custom Terminal</span>
+      </div>
+      <!-- Middle part: Additional actions (e.g., new tab, menu) -->
+      <div class="tab-actions">
+        <button class="tab-btn">+</button>
+        <button class="tab-btn">∨</button>
+      </div>
+      <!-- Right part: Window controls -->
+      <div class="window-controls">
+        <button class="window-control">-</button>
+        <button class="window-control">□</button>
+        <button class="window-control">X</button>
+      </div>
+    </div>
+
+    <!-- Actual terminal body -->
+    <div id="terminal">
+      <div id="output"></div>
+      <div id="input-line">
+        <span id="prompt">$</span>
+        <input type="text" id="command-input" autofocus />
+      </div>
     </div>
   </div>
+
+  <!-- Quick links at bottom -->
+  <div id="quick-links">
+    <a href="mailto:kanikapundir13@gmail.com">Email</a> |
+    <a href="https://www.linkedin.com/in/kanika-singh-pundir-4926bb279/" target="_blank">LinkedIn</a> |
+    <a href="https://github.com/ksp1303" target="_blank">GitHub</a>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 /* ------------------ File System Setup ------------------ */
 // Permanent file system (read-only files; external files that you can edit separately in the repo)
-// Instead of storing file content in JS, we mark them as external and supply their relative path.
 const permanentFS = {
   "/": {
     files: {},
@@ -126,7 +125,6 @@ async function cat(fileName) {
     return localDir.files[fileName];
   } else if (permDir && permDir.files[fileName] !== undefined) {
     const fileObj = permDir.files[fileName];
-    // If the file is marked as external, fetch its contents from the repo
     if (typeof fileObj === "object" && fileObj.external) {
       try {
         const response = await fetch(fileObj.path);
@@ -171,22 +169,27 @@ async function processCommand(cmd) {
   switch (command) {
     case "help":
       response = `Available commands:
-help                   Displays all the commands
-quit                   Exits the shell (refresh the page to restart)
-set VAR STRING         Sets a variable in shell memory
-print VAR              Displays the variable's value
-echo STRING            Echoes input (supports $VAR substitution)
-ls                     Lists files/directories in current folder
-mkdir DIR              Creates a new directory (local only)
-touch FILE             Creates a new file (local only)
-cd DIR                 Changes directory (supports ".." to go back)
-cat FILE               Displays the contents of a file
+help            Displays all the commands
+quit            Exits the shell (refresh the page to restart)
+clear           Clears the terminal output
+set VAR STRING  Sets a variable in shell memory
+print VAR       Displays the variable's value
+echo STRING     Echoes input (supports $VAR substitution)
+ls              Lists files/directories in current folder
+mkdir DIR       Creates a new directory (local only)
+touch FILE      Creates a new file (local only)
+cd DIR          Changes directory (supports ".." to go back)
+cat FILE        Displays the contents of a file
 `;
       break;
     case "quit":
       response = "Bye!";
       disableTerminal();
       break;
+    case "clear":
+      outputDiv.textContent = "";
+      // Do not add any response when clearing.
+      return;
     case "set":
       if (args.length < 3) {
         response = "Unknown command";
@@ -259,14 +262,12 @@ cat FILE               Displays the contents of a file
       response = "Unknown command: " + command;
   }
 
-  // Append the command and its response to the terminal output.
   outputDiv.textContent += "$ " + cmd + "\n" + response + "\n";
   outputDiv.scrollTop = outputDiv.scrollHeight;
 }
 
 function disableTerminal() {
-  const input = document.getElementById("command-input");
-  input.disabled = true;
+  document.getElementById("command-input").disabled = true;
 }
 
 /* ------------------ Event Listeners ------------------ */
@@ -282,5 +283,5 @@ document.getElementById("command-input").addEventListener("keydown", async funct
 
 document.addEventListener("DOMContentLoaded", () => {
   const outputDiv = document.getElementById("output");
-  outputDiv.textContent += "Welcome! Type help to see all commands available to you. \nNote: The mkdir and touch commands modify only your local session and will not affect my permanent files so feel free to play around!\n\n";
+  outputDiv.textContent += "Welcome! Type help to see all commands available to you.\nNote: The mkdir and touch commands modify only your local session and will not affect my permanent files so feel free to play around!\n\n";
 });
