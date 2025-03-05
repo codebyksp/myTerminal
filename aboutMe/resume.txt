@@ -1,5 +1,5 @@
 Kanika Singh Pundir 
-kanikapundir13@gmail.com 
+email me at kanikapundir13@gmail.com to get a proper copy of my resume! 
 
 Aspiring software engineer with strong foundations in computer science and a passion for software development. Skilled in Python, Java, and algorithm optimization with experience building scalable projects.
 
@@ -29,18 +29,6 @@ Online Auction System for Antiques (In Progress)
 Java Card Game Framework 
 •	Built a scalable, modular Java-based card game framework using object-oriented principles and JavaFX for a GUI.
 •	Incorporated software design patterns for enhanced usability and scalability.
-
-EXPERIENCE
-Government of Quebec CNESST	
-Office Clerk	        July 2023 – Present
-•	Managed data processing and administrative tasks with a focus on accuracy and detail. 
-•	Developed strong organizational skills and effective communication, coordinating with various departments.
-•	Managed sensitive data with confidentiality, ensuring compliance with government regulations.  
-
-LEADERSHIP & COMMUNITY ENGAGEMENT
-Encode Canada – Montreal, QC
-Director of Marketing 							                                                                        September 2024– Present
-•	Created educational AI content for social media, translating complex concepts into accessible formats to enhance AI literacy.
 
 INTERESTS
 Operating Systems & Cybersecurity | Finance & Tech Integration | Software Development | Data Engineering & Cloud Computing | AI 
