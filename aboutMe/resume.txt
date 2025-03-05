@@ -1,0 +1,46 @@
+Kanika Singh Pundir 
+kanikapundir13@gmail.com 
+
+Aspiring software engineer with strong foundations in computer science and a passion for software development. Skilled in Python, Java, and algorithm optimization with experience building scalable projects.
+
+EDUCATION
+McGill University, Montreal, QC
+Bachelor's in Computer Science                                                                                                August 2022 - Present
+Relevant Courses:
+Algorithms and Data Structures | Software Design | Artificial Intelligence | Database Systems 
+
+SKILLS
+•	Programming Languages: Python, Java, SQL, C, MIPS Assembly, OCaml, Bash
+•	Tools & Technologies: Linux/Unix, Git, JavaFX, IDEs, Numpy
+•	Technical Skills: Unit testing, debugging, functional programming techniques, design patterns, algorithmic optimization, OOP, REST API
+•	Languages: Fluent in English, French, and Hindi/Urdu
+•	Soft Skills: Strong attention to detail, effective problem-solving, clear communication, and collaboration within teams.
+
+PROJECTS
+Reversi (Othello) AI Agent 
+•	Designed a Python-based AI agent using Minimax and alpha-beta pruning algorithms with strategic evaluation heuristics.
+•	Achieved a 98%-100% win rate against random agents and 80% win rate against average human players.
+
+Online Auction System for Antiques (In Progress)
+•	Designing and building a database application for hosting online auctions of antiques, focusing on bid tracking and user-friendly operations.
+•	Developing the schema using DB2 to ensure efficient data organization and querying.
+•	Implementing application programs in Java to enable seamless interaction with the database.
+
+Java Card Game Framework 
+•	Built a scalable, modular Java-based card game framework using object-oriented principles and JavaFX for a GUI.
+•	Incorporated software design patterns for enhanced usability and scalability.
+
+EXPERIENCE
+Government of Quebec CNESST	
+Office Clerk	        July 2023 – Present
+•	Managed data processing and administrative tasks with a focus on accuracy and detail. 
+•	Developed strong organizational skills and effective communication, coordinating with various departments.
+•	Managed sensitive data with confidentiality, ensuring compliance with government regulations.  
+
+LEADERSHIP & COMMUNITY ENGAGEMENT
+Encode Canada – Montreal, QC
+Director of Marketing 							                                                                        September 2024– Present
+•	Created educational AI content for social media, translating complex concepts into accessible formats to enhance AI literacy.
+
+INTERESTS
+Operating Systems & Cybersecurity | Finance & Tech Integration | Software Development | Data Engineering & Cloud Computing | AI 

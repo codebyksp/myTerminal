@@ -1,13 +1,14 @@
-// ------------------ File System Setup ------------------
-// Permanent file system (your fixed files and directories)
+/* ------------------ File System Setup ------------------ */
+// Permanent file system (read-only files; external files that you can edit separately in the repo)
+// Instead of storing file content in JS, we mark them as external and supply their relative path.
 const permanentFS = {
   "/": {
     files: {},
     dirs: {
       "aboutMe": {
         files: {
-          "resume.txt": "This is my resume. Update it with your actual resume.",
-          "contactMe.txt": "This is my contact info. Update it with your actual contact info."
+          "resume.txt": { external: true, path: "aboutMe/resume.txt" },
+          "contactMe.txt": { external: true, path: "aboutMe/contactMe.txt" }
         },
         dirs: {}
       }
@@ -26,9 +27,8 @@ const localFS = {
 // The current path starts at root
 let currentPath = "/";
 
-// ------------------ Helper Functions ------------------
+/* ------------------ Helper Functions ------------------ */
 function getDirectory(fs, path) {
-  // path is a string like "/" or "/aboutMe"
   let parts = path.split("/").filter(part => part !== "");
   let dir = fs["/"];
   for (let p of parts) {
@@ -41,20 +41,15 @@ function getDirectory(fs, path) {
   return dir;
 }
 
-// Combine permanent and local directories (local changes override permanent if needed)
 function getCombinedDirectory(path) {
   const permDir = getDirectory(permanentFS, path) || { files: {}, dirs: {} };
   const localDir = getDirectory(localFS, path) || { files: {}, dirs: {} };
-
-  // Merge directories: union of keys
   const combinedDirs = { ...permDir.dirs, ...localDir.dirs };
-  // Merge files: local files override permanent ones if same name exists
   const combinedFiles = { ...permDir.files, ...localDir.files };
-
   return { dirs: combinedDirs, files: combinedFiles };
 }
 
-// ------------------ Command Implementations ------------------
+/* ------------------ Command Implementations ------------------ */
 function ls() {
   const combined = getCombinedDirectory(currentPath);
   let listing = "";
@@ -71,13 +66,11 @@ function mkdir(dirName) {
   if (!/^[A-Za-z0-9]+$/.test(dirName)) {
     return "Bad command: mkdir";
   }
-  // Check if directory already exists in either FS.
   const permDir = getDirectory(permanentFS, currentPath);
   const localDir = getDirectory(localFS, currentPath);
   if ((permDir && permDir.dirs[dirName]) || (localDir && localDir.dirs[dirName])) {
     return "Directory already exists";
   }
-  // Create in localFS only
   if (!localDir) {
     return "Current directory not found in localFS";
   }
@@ -86,20 +79,17 @@ function mkdir(dirName) {
 }
 
 function touch(fileName) {
-  // Allow alphanumeric characters and a dot (for file extension)
   if (!/^[A-Za-z0-9.]+$/.test(fileName)) {
     return "Bad command: touch";
   }
   const permDir = getDirectory(permanentFS, currentPath);
   const localDir = getDirectory(localFS, currentPath);
-  // Prevent modifying permanent files
   if (permDir && permDir.files[fileName] !== undefined) {
     return "File already exists (permanent)";
   }
   if (localDir.files[fileName] !== undefined) {
     return "File already exists";
   }
-  // Create file in localFS with empty content
   localDir.files[fileName] = "";
   return "";
 }
@@ -112,11 +102,10 @@ function cd(dirName) {
       let parts = currentPath.split("/").filter(x => x !== "");
       parts.pop();
       currentPath = "/" + parts.join("/");
-      if (currentPath === "/") currentPath = "/";
+      if (currentPath === "") currentPath = "/";
       return "";
     }
   } else {
-    // Check in both permanent and local FS
     const permDir = getDirectory(permanentFS, currentPath);
     const localDir = getDirectory(localFS, currentPath);
     const existsInPerm = permDir && permDir.dirs && permDir.dirs[dirName];
@@ -129,22 +118,36 @@ function cd(dirName) {
   }
 }
 
-function cat(fileName) {
+async function cat(fileName) {
   const permDir = getDirectory(permanentFS, currentPath);
   const localDir = getDirectory(localFS, currentPath);
-  let content = "";
   // Check localFS first (overrides permanent if exists)
   if (localDir && localDir.files[fileName] !== undefined) {
-    content = localDir.files[fileName];
+    return localDir.files[fileName];
   } else if (permDir && permDir.files[fileName] !== undefined) {
-    content = permDir.files[fileName];
+    const fileObj = permDir.files[fileName];
+    // If the file is marked as external, fetch its contents from the repo
+    if (typeof fileObj === "object" && fileObj.external) {
+      try {
+        const response = await fetch(fileObj.path);
+        if (response.ok) {
+          const text = await response.text();
+          return text;
+        } else {
+          return "Error fetching file: " + response.status;
+        }
+      } catch (error) {
+        return "Error fetching file: " + error;
+      }
+    } else {
+      return fileObj;
+    }
   } else {
     return "File not found";
   }
-  return content;
 }
 
-// ------------------ Shell Memory (for set/print/echo) ------------------
+/* ------------------ Shell Memory (for set/print/echo) ------------------ */
 const shellMemory = {};
 
 function mem_set_value(varName, value) {
@@ -155,8 +158,8 @@ function mem_get_value(varName) {
   return shellMemory[varName] || null;
 }
 
-// ------------------ Command Processing ------------------
-function processCommand(cmd) {
+/* ------------------ Command Processing ------------------ */
+async function processCommand(cmd) {
   const outputDiv = document.getElementById("output");
   let response = "";
   const args = cmd.split(" ").filter(s => s.length > 0);
@@ -243,7 +246,7 @@ cat FILE               Displays the contents of a file
       if (args.length !== 2) {
         response = "Unknown command";
       } else {
-        response = cat(args[1]);
+        response = await cat(args[1]);
       }
       break;
     case "source":
@@ -256,7 +259,7 @@ cat FILE               Displays the contents of a file
       response = "Unknown command: " + command;
   }
 
-  // Append the command and response to output.
+  // Append the command and its response to the terminal output.
   outputDiv.textContent += "$ " + cmd + "\n" + response + "\n";
   outputDiv.scrollTop = outputDiv.scrollHeight;
 }
@@ -266,18 +269,17 @@ function disableTerminal() {
   input.disabled = true;
 }
 
-// ------------------ Event Listeners ------------------
-document.getElementById("command-input").addEventListener("keydown", function(e) {
+/* ------------------ Event Listeners ------------------ */
+document.getElementById("command-input").addEventListener("keydown", async function(e) {
   if (e.key === "Enter") {
     let cmd = this.value.trim();
     if (cmd !== "") {
-      processCommand(cmd);
+      await processCommand(cmd);
     }
     this.value = "";
   }
 });
 
-// Display a welcome note on page load.
 document.addEventListener("DOMContentLoaded", () => {
   const outputDiv = document.getElementById("output");
   outputDiv.textContent += "Welcome! Type help to see all commands available to you. \nNote: The mkdir and touch commands modify only your local session and will not affect my permanent files so feel free to play around!\n\n";
