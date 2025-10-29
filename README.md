@@ -1,7 +1,7 @@
 ## MyTerminal — Custom Browser Shell
 
 **Live Demo:** [codebyksp.github.io/myTerminal](https://codebyksp.github.io/myTerminal/)
-**Author:** [Kanika Singh Pundir](https://github.com/codebyksp)
+**Author:** [Kanika Pundir](https://github.com/codebyksp)
 
 ---
 
